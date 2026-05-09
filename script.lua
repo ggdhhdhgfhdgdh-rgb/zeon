@@ -1,5 +1,5 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-local Window = WindUI:CreateWindow({
+local Window = WindUI:CrاليوزروزروزرeWindow({
     Title = "زيون",
     Icon = "door-open", -- lucide icon
     Author = "ابن ياس",
@@ -61,7 +61,7 @@ local Window = WindUI:CreateWindow({
 })
 WindUI:Notify({
     Title = "مطور زيون",
-    Content = "زيون واحد عراق😨",
+    Content = "نورت/ي سكربت الطور زيون",
     Duration = 3, -- 3 seconds
     Icon = "bird",
 })
@@ -146,6 +146,22 @@ local Button = Tab:Button({
     Callback = function()
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Headless-and-Korblox-207744"))()
     end
+        local Button = Tab:Button({
+    Title = "سكربت تخريب الماب شاليه بس تبي تغير سكنك الئ",
+    Desc = "تحته اضغط وحطه بكود السكنات وشغل السكربت",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/VR7ss/VR7/main/vr7ontop"))()
+    end
+})
+local Button = Tab:Button({
+    Title =نسخ السكن",
+    Desc =" كود السكن انسخه",
+    Locked = false,
+    Callback = function()
+        setclipboard("c00ldude452311")
+    end
+})
 })
 local Tab = Window:Tab({
     Title = "شغلات من صنعي اعرف مايفيدنك بس جرب",
@@ -379,5 +395,13 @@ local Button = Tab:Button({
             Icon = "copy"
         })
 
+    end
+})
+local Button = Tab:Button({
+    Title = "نسخ اليوزر",
+    Desc = "اضغط ينسخ",
+    Locked = false,
+    Callback = function()
+        setclipboard("c00ldude452311")
     end
 })
