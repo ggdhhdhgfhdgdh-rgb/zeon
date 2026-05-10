@@ -1,6 +1,6 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 local Window = WindUI:CreateWindow({
-    Title = "صيانه حاليا",
+    Title = "التحديث الجديد عن قريب",
     Icon = "door-open", -- lucide icon
     Author = "ابن ياس",
     Folder = "زيوننننننن",
@@ -39,7 +39,7 @@ local Window = WindUI:CreateWindow({
     -- !  ↓  if you DON'T need the key system
     KeySystem = { 
         -- ↓ Optional. You can remove it.
-        Key = { "حمد", "5678" },
+        Key = { "زيون", "5678" },
         
         Note = "Example Key System.",
         
