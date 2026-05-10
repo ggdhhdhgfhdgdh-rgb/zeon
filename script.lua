@@ -65,6 +65,24 @@ WindUI:Notify({
     Duration = 3, -- 3 seconds
     Icon = "bird",
 })
+WindUI:Popup({
+    Title = "نورت/ي السكربت",
+    Icon = "info",
+    Content = "Popup content",
+    Buttons = {
+        {
+            Title = "Cancel",
+            Callback = function() end,
+            Variant = "Tertiary",
+        },
+        {
+            Title = "نورت/ي السكربت",
+            Icon = "arrow-right",
+            Callback = function() end,
+            Variant = "Primary",
+        }
+    }
+})
 Window:Tag({
     Title = "v1.6.6",
     Icon = "github",
@@ -405,3 +423,25 @@ local PlayerCount = Tab:Paragraph({
     Title = "عدد اللاعبين",
     Desc = tostring(#Players:GetPlayers())
 })
+local Tab = Window:Tab({
+    Title = "تحديثات",
+    Icon = "bird", -- optional
+    Locked = false,
+})
+local Button = Tab:Button({
+    Title = "اخر تحديث",
+    Desc = "2026/5/9",
+    Locked = false,
+    Callback = function()
+        -- ...
+    end
+})
+local Button = Tab:Button({
+    Title = "يشمل هذا التحديث الآتي",
+    Desc = "تعديل قائمه2يمكن تحريكها 3اضافه الحقوق4اضافه دخوليه ",
+    Locked = false,
+    Callback = function()
+        -- ...
+    end
+})
+Button:SetTitle("تم بحمد الله التحديث v2")
