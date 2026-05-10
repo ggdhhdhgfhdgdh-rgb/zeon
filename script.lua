@@ -163,6 +163,68 @@ local Button = Tab:Button({
         setclipboard("c00ldude452311")
     end
 })
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local enabled = false
+local targetName = ""
+local targetPlayer = nil
+
+-- يبحث عن لاعب من اول حروف الاسم
+local function findPlayer(text)
+	text = text:lower()
+
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr ~= player then
+			if plr.Name:lower():sub(1, #text) == text
+			or plr.DisplayName:lower():sub(1, #text) == text then
+				return plr
+			end
+		end
+	end
+
+	return nil
+end
+
+-- تشغيل / اطفاء
+local Toggle = Tab:Toggle({
+	Title = "ايم بوت",
+	Desc = "تشغيل واطفاء",
+	Value = false,
+
+	Callback = function(state)
+		enabled = state
+	end
+})
+
+-- كتابة اول حروف الاسم
+local Input = Tab:Input({
+	Title = "اسم اللاعب",
+	Desc = "اكتب اول 3 حروف او 4",
+	Value = "",
+
+	Callback = function(text)
+		targetName = text
+		targetPlayer = findPlayer(text)
+	end
+})
+
+-- التتبع
+RunService.RenderStepped:Connect(function()
+	if enabled and targetPlayer then
+		local char = targetPlayer.Character
+
+		if char and char:FindFirstChild("Head") then
+			camera.CFrame = CFrame.new(
+				camera.CFrame.Position,
+				char.Head.Position
+			)
+		end
+	end
+end)
 local Tab = Window:Tab({
     Title = "شغلات من صنعي اعرف مايفيدنك بس جرب",
     Icon = "bird", -- optional
