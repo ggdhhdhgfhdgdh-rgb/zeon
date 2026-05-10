@@ -230,6 +230,101 @@ local Tab = Window:Tab({
     Icon = "bird", -- optional
     Locked = false,
 })
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+
+local ESPEnabled = false
+local ESPObjects = {}
+
+local function CreateESP(plr)
+
+    if plr == LocalPlayer then return end
+
+    local line = Drawing.new("Line")
+    line.Thickness = 1
+
+    local text = Drawing.new("Text")
+    text.Size = 16
+    text.Center = true
+    text.Outline = true
+
+    ESPObjects[plr] = {
+        Line = line,
+        Text = text
+    }
+end
+
+local function RemoveESP(plr)
+
+    if ESPObjects[plr] then
+
+        ESPObjects[plr].Line:Remove()
+        ESPObjects[plr].Text:Remove()
+
+        ESPObjects[plr] = nil
+    end
+end
+
+for _,plr in pairs(Players:GetPlayers()) do
+    CreateESP(plr)
+end
+
+Players.PlayerAdded:Connect(CreateESP)
+Players.PlayerRemoving:Connect(RemoveESP)
+
+Tab:Toggle({
+    Title = "تشغيل كشف اللاعبين",
+    Default = false,
+    Callback = function(state)
+        ESPEnabled = state
+
+        if not state then
+
+            for _,esp in pairs(ESPObjects) do
+                esp.Line.Visible = false
+                esp.Text.Visible = false
+            end
+        end
+    end
+})
+
+RunService.RenderStepped:Connect(function()
+
+    if not ESPEnabled then return end
+
+    for plr,esp in pairs(ESPObjects) do
+
+        local char = plr.Character
+
+        if char and char:FindFirstChild("HumanoidRootPart") and char:FindFirstChild("Humanoid") then
+
+            local hrp = char.HumanoidRootPart
+            local hum = char.Humanoid
+
+            if hum.Health > 0 then
+
+                local pos, visible = Camera:WorldToViewportPoint(hrp.Position)
+
+                if visible then
+
+                    local distance = math.floor((LocalPlayer.Character.HumanoidRootPart.Position - hrp.Position).Magnitude)
+
+                    esp.Line.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+                    esp.Line.To = Vector2.new(pos.X, pos.Y)
+                    esp.Line.Visible = true
+
+                    esp.Text.Position = Vector2.new(pos.X, pos.Y - 30)
+                    esp.Text.Text = plr.Name .. " | " .. distance .. "m | HP: " .. math.floor(hum.Health)
+                    esp.Text.Visible = true
+
+                else
+                    esp.Line.Visible = false
+                    esp.Text.Visible = false
+                end
+            end
+        end
+    end
+end)
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -238,4 +333,5 @@ local ESPEnabled = false
 -- عدد اللاعبين
 local PlayerCount = Tab:Paragraph({
     Title = "عدد اللاعبين",
-    Desc = tostring(
+    Desc = tostring(#Players:GetPlayers())
+})
