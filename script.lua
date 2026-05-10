@@ -225,6 +225,14 @@ RunService.RenderStepped:Connect(function()
 		end
 	end
 end)
+local Button = Tab:Button({
+    Title = "اقوئ سكربت ددريلز (ماب القطار) ",
+    Desc = "من صنعي كلشي تحتاجه موجود",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/erewe23/deadrailsring.github.io/refs/heads/main/ringta.lua"))()
+    end
+})
 local Tab = Window:Tab({
     Title = "شغلات من صنعي اعرف مايفيدنك بس جرب",
     Icon = "bird", -- optional
