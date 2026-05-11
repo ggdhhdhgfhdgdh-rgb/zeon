@@ -455,58 +455,6 @@ Tab:Toggle({
         tpAuto = state
     end
 })
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local player = Players.LocalPlayer
-
-local targetName = ""
-local speed = 60
-local flying = false
-
-Tab:Input({
-    Title = "اسم اللاعب",
-    Callback = function(text)
-        targetName = text
-    end
-})
-
-Tab:Button({
-    Title = "تنقل طيران",
-    Desc = "يطير ويروح للاعب",
-    Callback = function()
-
-        local target = Players:FindFirstChild(targetName)
-        local char = player.Character
-
-        if not (target and target.Character and char) then return end
-
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        local hum = char:FindFirstChildOfClass("Humanoid")
-
-        if hrp and hum then
-
-            flying = true
-            hum:ChangeState(Enum.HumanoidStateType.Physics)
-
-            -- يرفع اللاعب شوي (Float)
-            hrp.CFrame = hrp.CFrame + Vector3.new(0, 10, 0)
-
-            -- ينتقل تدريجياً نحو الهدف
-            task.spawn(function()
-                while flying and target.Character and target.Character:FindFirstChild("HumanoidRootPart") do
-
-                    local goal = target.Character.HumanoidRootPart.CFrame + Vector3.new(2, 5, 2)
-
-                    hrp.CFrame = hrp.CFrame:Lerp(goal, 0.1)
-
-                    task.wait()
-                end
-            end)
-        end
-    end
-})
-
 
 -- ضغط للتنقل
 mouse.Button1Down:Connect(function()
