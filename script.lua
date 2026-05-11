@@ -1,6 +1,6 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 local Window = WindUI:CreateWindow({
-    Title = "التحديث الجديد عن قريب",
+    Title = "زيون اصدار(v3)",
     Icon = "door-open", -- lucide icon
     Author = "ابن ياس",
     Folder = "زيوننننننن",
@@ -423,6 +423,129 @@ local PlayerCount = Tab:Paragraph({
     Title = "عدد اللاعبين",
     Desc = tostring(#Players:GetPlayers())
 })
+local Tab = Window:Tab({
+    Title = "قسم التليبورت",
+    Icon = "bird", -- optional
+    Locked = false,
+})
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local mouse = player:GetMouse()
+
+local tpEnabled = false
+
+local Toggle = Tab:Toggle({
+    Title = "التنقل بلضغط",
+    Desc = "اضغط بأي مكان حتى تنتقل",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false,
+
+    Callback = function(state)
+        tpEnabled = state
+    end
+})
+
+mouse.Button1Down:Connect(function()
+    if tpEnabled then
+        local char = player.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+            char.HumanoidRootPart.CFrame =
+                CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0))
+        end
+    end
+end)-[[cal Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local mouse = player:GetMouse()
+
+local tpFlyEnabled = false
+local tpAutoEnabled = false
+
+local flySpeed = 1
+local targetPlayer = nil
+
+-- تنقل طيران (سلايدر سرعة)
+Tab:Slider({
+    Title = "تنقل طيران - السرعة",
+    Desc = "تحكم بسرعة الانتقال",
+    Min = 1,
+    Max = 50,
+    Default = 10,
+    Callback = function(val)
+        flySpeed = val / 10
+    end
+})
+
+Tab:Toggle({
+    Title = "تنقل طيران",
+    Desc = "تنقل بالمكان اللي تضغط عليه",
+    Value = false,
+    Callback = function(state)
+        tpFlyEnabled = state
+    end
+})
+
+Tab:Toggle({
+    Title = "تنقل تلقائي",
+    Desc = "يتبع أقرب لاعب",
+    Value = false,
+    Callback = function(state)
+        tpAutoEnabled = state
+    end
+})
+
+-- اختيار أقرب لاعب
+local function getClosestPlayer()
+    local closest = nil
+    local shortest = math.huge
+
+    for _,v in pairs(Players:GetPlayers()) do
+        if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local dist = (player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+            if dist < shortest then
+                shortest = dist
+                closest = v
+            end
+        end
+    end
+
+    return closest
+end
+
+-- تنقل طيران(ضغط ماوس)
+mouse.Button1Down:Connect(function()
+    if tpFlyEnabled then
+        local char = player.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+
+            char.HumanoidRootPart.CFrame =
+                CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0))
+
+        end
+    end
+end)
+
+-- تنقل تلقائي
+RunService.RenderStepped:Connect(function()
+    if tpAutoEnabled then
+        local target = getClosestPlayer()
+
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            local char = player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+
+                char.HumanoidRootPart.CFrame =
+                    char.HumanoidRootPart.CFrame:Lerp(
+                        target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2),
+                        flySpeed * 0.05
+                    )
+
+            end
+        end
+    end
+end)
 local Tab = Window:Tab({
     Title = "تحديثات",
     Icon = "bird", -- optional
