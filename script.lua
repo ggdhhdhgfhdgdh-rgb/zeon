@@ -1,6 +1,6 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 local Window = WindUI:CreateWindow({
-    Title = "زيون اصدار(v3)",
+    Title = "زيون",
     Icon = "door-open", -- lucide icon
     Author = "ابن ياس",
     Folder = "زيوننننننن",
@@ -59,29 +59,29 @@ local Window = WindUI:CreateWindow({
         -- API = {} ← Services. Read about it below ↓
     },
 })
-WindUI:Notify({
-    Title = "مطور زيون",
-    Content = "زيون واحد عراق😨",
-    Duration = 3, -- 3 seconds
-    Icon = "bird",
-})
 WindUI:Popup({
-    Title = "نورت/ي السكربت",
+    Title = "نورت/ي سكربت المطور زيون",
     Icon = "info",
-    Content = "Popup content",
+    Content = "ياآهلا وسهلآ",
     Buttons = {
         {
-            Title = "Cancel",
+            Title = "ماحب ارحب بيك",
             Callback = function() end,
             Variant = "Tertiary",
         },
         {
-            Title = "نورت/ي السكربت",
+            Title = "احب ارحب بيك",
             Icon = "arrow-right",
             Callback = function() end,
             Variant = "Primary",
         }
     }
+})
+WindUI:Notify({
+    Title = "مطور زيون",
+    Content = "زيون واحد عراق😨",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
 })
 Window:Tag({
     Title = "v1.6.6",
@@ -243,14 +243,6 @@ RunService.RenderStepped:Connect(function()
 		end
 	end
 end)
-local Button = Tab:Button({
-    Title = "اقوئ سكربت ددريلز (ماب القطار) ",
-    Desc = "من صنعي كلشي تحتاجه موجود",
-    Locked = false,
-    Callback = function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/erewe23/deadrailsring.github.io/refs/heads/main/ringta.lua"))()
-    end
-})
 local Tab = Window:Tab({
     Title = "شغلات من صنعي اعرف مايفيدنك بس جرب",
     Icon = "bird", -- optional
@@ -424,147 +416,14 @@ local PlayerCount = Tab:Paragraph({
     Desc = tostring(#Players:GetPlayers())
 })
 local Tab = Window:Tab({
-    Title = "قسم التليبورت",
+    Title = "قسم التنقل",
     Icon = "bird", -- optional
     Locked = false,
 })
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local mouse = player:GetMouse()
-
-local tpEnabled = false
-
-local Toggle = Tab:Toggle({
-    Title = "التنقل بلضغط",
-    Desc = "اضغط بأي مكان حتى تنتقل",
-    Icon = "bird",
-    Type = "Checkbox",
-    Value = false,
-
-    Callback = function(state)
-        tpEnabled = state
-    end
-})
-
-mouse.Button1Down:Connect(function()
-    if tpEnabled then
-        local char = player.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            char.HumanoidRootPart.CFrame =
-                CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0))
-        end
-    end
-end)-[[cal Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local player = Players.LocalPlayer
-local mouse = player:GetMouse()
-
-local tpFlyEnabled = false
-local tpAutoEnabled = false
-
-local flySpeed = 1
-local targetPlayer = nil
-
--- تنقل طيران (سلايدر سرعة)
-Tab:Slider({
-    Title = "تنقل طيران - السرعة",
-    Desc = "تحكم بسرعة الانتقال",
-    Min = 1,
-    Max = 50,
-    Default = 10,
-    Callback = function(val)
-        flySpeed = val / 10
-    end
-})
-
-Tab:Toggle({
-    Title = "تنقل طيران",
-    Desc = "تنقل بالمكان اللي تضغط عليه",
-    Value = false,
-    Callback = function(state)
-        tpFlyEnabled = state
-    end
-})
-
-Tab:Toggle({
-    Title = "تنقل تلقائي",
-    Desc = "يتبع أقرب لاعب",
-    Value = false,
-    Callback = function(state)
-        tpAutoEnabled = state
-    end
-})
-
--- اختيار أقرب لاعب
-local function getClosestPlayer()
-    local closest = nil
-    local shortest = math.huge
-
-    for _,v in pairs(Players:GetPlayers()) do
-        if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-            local dist = (player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
-            if dist < shortest then
-                shortest = dist
-                closest = v
-            end
-        end
-    end
-
-    return closest
-end
-
--- تنقل طيران(ضغط ماوس)
-mouse.Button1Down:Connect(function()
-    if tpFlyEnabled then
-        local char = player.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-
-            char.HumanoidRootPart.CFrame =
-                CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0))
-
-        end
-    end
-end)
-
--- تنقل تلقائي
-RunService.RenderStepped:Connect(function()
-    if tpAutoEnabled then
-        local target = getClosestPlayer()
-
-        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-            local char = player.Character
-            if char and char:FindFirstChild("HumanoidRootPart") then
-
-                char.HumanoidRootPart.CFrame =
-                    char.HumanoidRootPart.CFrame:Lerp(
-                        target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2),
-                        flySpeed * 0.05
-                    )
-
-            end
-        end
-    end
-end)
 local Tab = Window:Tab({
-    Title = "تحديثات",
+    Title = "التحديثات",
     Icon = "bird", -- optional
     Locked = false,
 })
-local Button = Tab:Button({
-    Title = "اخر تحديث",
-    Desc = "2026/5/9",
-    Locked = false,
-    Callback = function()
-        -- ...
-    end
-})
-local Button = Tab:Button({
-    Title = "يشمل هذا التحديث الآتي",
-    Desc = "تعديل قائمه2يمكن تحريكها 3اضافه الحقوق4اضافه دخوليه ",
-    Locked = false,
-    Callback = function()
-        -- ...
-    end
-})
-Button:SetTitle("تم بحمد الله التحديث v2")
+Button:SetTitle("اخر تحديث")
+Button:SetTitle("2026/5/10")
