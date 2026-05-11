@@ -456,13 +456,35 @@ Tab:Toggle({
     end
 })
 
--- طيران (بدون سلايدر)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+local flyEnabled = false
+local speed = 50
+
 Tab:Toggle({
-    Title = "طيران",
+    Title = "تنقل طيران",
+    Desc = "تشغيل/إيقاف",
     Callback = function(state)
         flyEnabled = state
     end
 })
+
+RunService.RenderStepped:Connect(function()
+    if not flyEnabled then return end
+
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+
+        local hrp = char.HumanoidRootPart
+
+        -- يخلي اللاعب يطلع لفوك شوي ويثبت
+        hrp.Velocity = Vector3.new(0, speed, 0)
+
+    end
+end)
 
 -- ضغط للتنقل
 mouse.Button1Down:Connect(function()
