@@ -420,10 +420,60 @@ local Tab = Window:Tab({
     Icon = "bird", -- optional
     Locked = false,
 })
-local Tab = Window:Tab({
-    Title = "التحديثات",
-    Icon = "bird", -- optional
-    Locked = false,
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+local tpAutoEnabled = false
+local targetName = ""
+local flySpeed = 1
+
+Tab:Input({
+    Title = "اسم اللاعب",
+    Desc = "اكتب اسم الهدف",
+    Placeholder = "Player Name",
+    Callback = function(text)
+        targetName = text
+    end
 })
-Button:SetTitle("اخر تحديث")
-Button:SetTitle("2026/5/10")
+
+Tab:Toggle({
+    Title = "تنقل تلقائي",
+    Desc = "يتبع اللاعب بالاسم",
+    Value = false,
+    Callback = function(state)
+        tpAutoEnabled = state
+    end
+})
+
+Tab:Slider({
+    Title = "السرعة",
+    Desc = "سرعة التتبع",
+    Min = 1,
+    Max = 50,
+    Default = 10,
+    Callback = function(val)
+        flySpeed = val / 10
+    end
+})
+
+RunService.RenderStepped:Connect(function()
+    if tpAutoEnabled and targetName ~= "" then
+
+        local target = Players:FindFirstChild(targetName)
+
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            local char = player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+
+                char.HumanoidRootPart.CFrame =
+                    char.HumanoidRootPart.CFrame:Lerp(
+                        target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2),
+                        flySpeed * 0.05
+                    )
+
+            end
+        end
+    end
+end)
