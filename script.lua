@@ -446,17 +446,21 @@ Tab:Toggle({
         tpAutoEnabled = state
     end
 })
+local flySpeed = 10
 
 Tab:Slider({
-    Title = "السرعة",
-    Desc = "سرعة التتبع",
+    Title = "تنقل طيران - السرعة",
+    Desc = "اسحب لتغيير السرعة",
     Min = 1,
-    Max = 50,
+    Max = 100,
+    Step = 1,
     Default = 10,
+
     Callback = function(val)
-        flySpeed = val / 10
+        flySpeed = val
     end
 })
+
 
 RunService.RenderStepped:Connect(function()
     if tpAutoEnabled and targetName ~= "" then
