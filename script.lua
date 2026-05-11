@@ -457,10 +457,9 @@ Tab:Slider({
     Default = 10,
 
     Callback = function(val)
-        flySpeed = val
+        flySpeed = tonumber(val)
     end
 })
-
 
 RunService.RenderStepped:Connect(function()
     if tpAutoEnabled and targetName ~= "" then
