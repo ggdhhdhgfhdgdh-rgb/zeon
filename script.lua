@@ -424,58 +424,77 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
 local player = Players.LocalPlayer
+local mouse = player:GetMouse()
 
-local tpAutoEnabled = false
+local tpClick = false
+local tpAuto = false
+local flyEnabled = false
+
 local targetName = ""
-local flySpeed = 1
 
+-- زر ضغط
+Tab:Toggle({
+    Title = "تنقل بلضغط",
+    Callback = function(state)
+        tpClick = state
+    end
+})
+
+-- تلقائي أول حروف
 Tab:Input({
     Title = "اسم اللاعب",
-    Desc = "اكتب اسم الهدف",
-    Placeholder = "Player Name",
+    Desc = "اكتب 3-4 حروف",
     Callback = function(text)
-        targetName = text
+        targetName = text:lower()
     end
 })
 
 Tab:Toggle({
     Title = "تنقل تلقائي",
-    Desc = "يتبع اللاعب بالاسم",
-    Value = false,
     Callback = function(state)
-        tpAutoEnabled = state
+        tpAuto = state
     end
 })
-local flySpeed = 10
 
-Tab:Slider({
-    Title = "تنقل طيران - السرعة",
-    Desc = "اسحب لتغيير السرعة",
-    Min = 1,
-    Max = 100,
-    Step = 1,
-    Default = 10,
-
-    Callback = function(val)
-        flySpeed = tonumber(val)
+-- طيران (بدون سلايدر)
+Tab:Toggle({
+    Title = "طيران",
+    Callback = function(state)
+        flyEnabled = state
     end
 })
+
+-- ضغط للتنقل
+mouse.Button1Down:Connect(function()
+    if tpClick then
+        local char = player.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+            char.HumanoidRootPart.CFrame =
+                CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0))
+        end
+    end
+end)
+
+-- تلقائي بالأحرف
+local function findPlayer(txt)
+    for _,v in pairs(Players:GetPlayers()) do
+        if v ~= player then
+            if v.Name:lower():sub(1,#txt) == txt then
+                return v
+            end
+        end
+    end
+end
 
 RunService.RenderStepped:Connect(function()
-    if tpAutoEnabled and targetName ~= "" then
-
-        local target = Players:FindFirstChild(targetName)
+    if tpAuto and targetName ~= "" then
+        local target = findPlayer(targetName)
 
         if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
             local char = player.Character
             if char and char:FindFirstChild("HumanoidRootPart") then
-
                 char.HumanoidRootPart.CFrame =
-                    char.HumanoidRootPart.CFrame:Lerp(
-                        target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2),
-                        flySpeed * 0.05
-                    )
-
+                    target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2)
             end
         end
     end
